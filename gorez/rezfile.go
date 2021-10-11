@@ -131,6 +131,7 @@ func (rf *REZFile) ExtractFile(fileInfo *REZEntryFileInfo, destFile string) erro
 // --------------------------------------------
 
 func (rf *REZFile) readEntry(offset int64, maxOffset int64, dir string) (err error) {
+	fmt.Println(">>readEntry")
 	if offset >= rf.size {
 		return fmt.Errorf("readEntry: Offset out of range: %d/%d", offset, rf.size)
 	}
@@ -153,12 +154,13 @@ func (rf *REZFile) readEntry(offset int64, maxOffset int64, dir string) (err err
 
 		switch entryType {
 		case 0: // File
+			fmt.Println(">>>>file")
 			var fileInfo, err = rf.readEntryFile(readOffset, dir)
 
 			if err != nil {
 				return fmt.Errorf("readEntryFile: %v", err)
 			}
-
+			fmt.Println(fileInfo.FileFullName)
 			// Ignores empty file such as DIRTYPETEXTURES
 			if fileInfo.Size > 0 {
 				rf.infoFiles = append(rf.infoFiles, fileInfo)
@@ -168,6 +170,7 @@ func (rf *REZFile) readEntry(offset int64, maxOffset int64, dir string) (err err
 				readOffset += (fileInfo.DataSize - REZEntryDirHeaderSize)
 			}
 		case 1: // Directory
+			fmt.Println(">>>>directory")
 			var dirInfo, err = rf.readEntryDir(readOffset, dir)
 
 			if err != nil {
