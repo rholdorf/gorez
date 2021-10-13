@@ -25,10 +25,10 @@ func main() {
 	fmt.Printf("LargestCommentSize %v\n", header.LargestCommentSize)
 	fmt.Printf("IsSorted %v\n", header.IsSorted)
 
-	//err2 := file.Read()
-	//if err2 != nil {
-		//fmt.Printf("Erro %v\n", err2)
-	//}	
+	err2 := file.Read()
+	if err2 != nil {
+		fmt.Printf("Erro %v\n", err2)
+	}	
 
 	file.Close()
 
