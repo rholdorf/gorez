@@ -4,7 +4,6 @@ import "fmt"
 import "../gorez"
 
 func main() {
-	fmt.Println("hello")
 	file := gorez.NewREZFile("../../../../../../temp/Game.rez")
 	err := file.Open()
 	if err != nil {

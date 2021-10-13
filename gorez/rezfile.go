@@ -131,7 +131,7 @@ func (rf *REZFile) ExtractFile(fileInfo *REZEntryFileInfo, destFile string) erro
 // --------------------------------------------
 
 func (rf *REZFile) readEntry(offset int64, maxOffset int64, dir string) (err error) {
-	fmt.Printf("offset:%v maxOffset:%v dir:%v\n", offset, maxOffset, dir)
+	fmt.Printf("offset:%v maxOffset:%v directory:%v\n", offset, maxOffset, dir)
 	//fmt.Println(">>readEntry")
 	if offset >= rf.size {
 		return fmt.Errorf("readEntry: Offset out of range: %d/%d", offset, rf.size)
@@ -145,6 +145,7 @@ func (rf *REZFile) readEntry(offset int64, maxOffset int64, dir string) (err err
 	}
 
 	for readOffset < maxOffset {
+		fmt.Printf("offset:%v\n", readOffset)
 		entryType, err = rf.readEntryType(readOffset)
 
 		if err != nil {
@@ -192,6 +193,7 @@ func (rf *REZFile) readEntry(offset int64, maxOffset int64, dir string) (err err
 		}
 		readOffset += REZEntryDirHeaderSize
 	}
+	fmt.Printf("returning from offset:%v\n", readOffset)
 	return nil
 }
 
@@ -234,6 +236,7 @@ func (rf *REZFile) readEntryFile(offset int64, dir string) (*REZEntryFileInfo, e
 
 	fmt.Printf("file Pos %v\n", info.REZEntryRezHeader.Pos)
 	fmt.Printf("file Size %v\n", info.REZEntryRezHeader.Size)
+	fmt.Printf("file Time %v\n", info.REZEntryRezHeader.Time)
 	fmt.Printf("file ID %v\n", info.REZEntryRezHeader.ID)
 	fmt.Printf("file Type %v\n", info.REZEntryRezHeader.Type)
 	fmt.Printf("file NumKeys %v\n", info.REZEntryRezHeader.NumKeys)
@@ -270,7 +273,7 @@ func (rf *REZFile) readEntryDir(offset int64, dir string) (*REZEntryDirInfo, err
 	info.DataSize = (12 + (int64(len(info.DirName) + 1)))
 	fmt.Printf("DirName %v\n", info.DirName)
 	fmt.Printf("DirFullName %v\n", info.DirFullName)
-	fmt.Printf("Size %v\n", info.DataSize)
+	fmt.Printf("DataSize %v\n", info.DataSize)
 	return &info, nil
 }
 
